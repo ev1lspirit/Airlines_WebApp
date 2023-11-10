@@ -16,8 +16,8 @@ print(connector)
 @info_router.get("/planes", tags=tags)
 def get_planes():
     with connector as conn:
-        resp = conn.select(what=Fields(PlaneModel.model), from_=Tables(PlaneModel.name,
-                                                          Alias(name=PlaneModel.name, alias='model2'),
-                                                          Alias(name=PlaneModel.name, alias='model3')))
+        resp = conn.select(what=[PlaneModel.model, Passenger.first_name, Passenger.last_name],
+                           from_=[PlaneModel.name, Passenger.name]
+                           ).filter((Passenger.first_name != "Daniel") | (PlaneModel.model == "737"))
         print(resp)
     return make_json(status=200, desc="Planes found!", resp=resp.response)
