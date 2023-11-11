@@ -2,21 +2,15 @@ from psycopg2.pool import SimpleConnectionPool
 from db.cfg_reader import get_database
 import typing as tp
 import logging
-from dataclasses import dataclass
 from functools import wraps, partial
-from itertools import chain
+
+from .selector import Selector
+from .models import Fields, Field, Tables, ExecutionResponse
 
 logging.basicConfig(level=logging.DEBUG)
 
 
-__all__ = "Connector", "ExecutionResponse", "Alias", "Fields", "Tables", "Table"
-
-
-@dataclass
-class ExecutionResponse:
-    query: tp.Optional[str]
-    response: tp.Optional[str]
-    error: tp.Optional[dict[str, str]]
+__all__ = "Connector",
 
 
 def pooled(outer_cls=None, minconn=3, maxconn=5):
@@ -52,135 +46,6 @@ def pooled(outer_cls=None, minconn=3, maxconn=5):
     return outer_cls
 
 
-@dataclass(frozen=True)
-class Alias:
-    name: str
-    alias: str
-
-    def __getattr__(self, item):
-        return Field(value=".".join((self.alias, str(item))))
-
-
-@dataclass(frozen=True)
-class Table:
-    name: str
-
-    def __getattr__(self, item):
-        return Field(value=".".join((self.name, str(item))))
-
-
-class Fields:
-    def __init__(self, *field_names):
-        self.fields = list(field for field in field_names if isinstance(field, str))
-
-    def get_list(self):
-        return self.fields
-
-
-class Count:
-    def __init__(self, field):
-        self.field = field
-
-
-class Field:
-    __slots__ = "value"
-
-    def __init__(self, *, value):
-        self.value = str(value)
-
-    def __eq__(self, other: str):
-        return Field(value="{value} = '{other}'".format(value=str(self.value), other=other))
-
-    def __ge__(self, other):
-        return Field(value="{value} >= '{other}'".format(value=str(self.value), other=other))
-
-    def __le__(self, other):
-        return Field(value="{value} <= '{other}'".format(value=str(self.value), other=other))
-
-    def __gt__(self, other):
-        return Field(value="{value} > '{other}'".format(value=str(self.value), other=other))
-
-    def __lt__(self, other):
-        return Field(value="{value} < '{other}'".format(value=str(self.value), other=other))
-
-    def __ne__(self, other):
-        return Field(value="{value} <> '{other}'".format(value=str(self.value), other=other))
-
-    def __and__(self, other):
-        return Field(value="{value} and {other}".format(value=str(self.value), other=other.value))
-
-    def __or__(self, other):
-        return Field(value="{value} or {other}".format(value=str(self.value), other=other.value))
-
-
-# psql -U dankosmynin -d WebAirlines -p 9090
-# insert into passenger values (4, 'Waffel', 'Johnson', '1982-08-02', '+7963543535');
-class Tables:
-    def __init__(self, *table_names):
-        self.table_names = set(field.value if isinstance(field, Field) else field for field in table_names if isinstance(field, str))
-        self.aliased = tuple("".join((field.name, " AS ", field.alias)) for field in table_names if
-                             isinstance(field, Alias) and field.alias != field.name)
-
-    def get_list(self):
-        return list(chain(self.table_names, self.aliased))
-
-
-class Selector:
-    template = "SELECT {fields} FROM {tables} ;"
-    clause = "WHERE {clause} ;"
-
-    def __init__(self, cursor, what: tp.Union[str, Fields], from_: Tables, where: tp.Optional[str] = None):
-        self.cursor = cursor
-        if isinstance(what, (list, tuple, set)):
-            what = (field.value if isinstance(field, Field) else field for field in what)
-            self.fields = Tables(*what).get_list()
-        elif isinstance(what, Field):
-            self.fields = [what.value]
-        elif isinstance(what, Tables):
-            self.fields = what.get_list()
-        else:
-            print(self.fields)
-            raise TypeError("Expected Sequence or Fields, got {type}".format(type=type(what).__name__))
-
-        if isinstance(from_, (list, tuple, set)):
-            self.tables = Tables(*from_).get_list()
-        elif isinstance(from_, Tables):
-            self.tables = from_.get_list()
-        else:
-            raise TypeError("Expected Sequence or Tables, got {type}".format(type=type(from_).__name__))
-
-        self.where = where
-        self.__query = self._form_query()
-
-    def __call__(self, *args, **kwargs):
-        return self.fetch(self.cursor)
-
-    def _form_query(self):
-        field_row = ",".join(self.fields)
-        table_row = ",".join(self.tables)
-        query = self.template.format(fields=field_row, tables=table_row)
-        return query
-
-    def filter(self, condition):
-        self.__query = " ".join((self.__query.replace(";", ""), self.clause.format(clause=condition.value)))
-        return self.fetch(self.cursor)
-
-    def fetch(self, cursor) -> ExecutionResponse:
-        query = self.__query
-        error = None
-        result = None
-
-        if query is None:
-            return ExecutionResponse(query=query, response=result, error=error)
-
-        try:
-            cursor.execute(query)
-            result = cursor.fetchall()
-        except Exception as exc:
-            error = str(exc)
-
-        return ExecutionResponse(query=query, response=result, error=error)
-
 # insert into airplanemodel values ('737', 'Boeing', 4500, 11000);
 
 
@@ -211,10 +76,6 @@ class BaseConnectionClass:
 
     def __enter__(self):
         raise RuntimeError("Can't use context manager with {self.__class__.__name__}".format(self=self))
-
-    def __del__(self):
-        for _, pool in self.pools:
-            pool.closeall()
 
 
 class ClosedConnectionClass(BaseConnectionClass):
@@ -332,8 +193,6 @@ class Connector:
         if password is None and Connector.__password is not None:
             password = Connector.__password
         return BaseConnectionClass(database=dbase, password=password, port=port, host=host, user=user)
-
-
 
 
 if __name__ == "__main__":

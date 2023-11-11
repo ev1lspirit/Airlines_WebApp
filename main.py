@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 import uvicorn
-from db import ExecutionResponse, Connector
+from db import Connector
+from db.models import ExecutionResponse
 import routes
 from auth import auth_router
 
