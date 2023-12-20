@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <script src="{{ url_for('frontend', path='seatmap.js')}}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/datepicker.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('frontend', path='style.css')}}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <style>
+        nav {
+            position: relative;
+            text-align: center;
+            justify-content: top;
+            vertical-align: top;
+            top: -300px;
+            left: -520px;
+            padding: 0px;
+            z-index: 3;
+          }
+
+                .button-18 {
+        align-items: center;
+        background-color: #0A66C2;
+        border: 0;
+        border-radius: 100px;
+        box-sizing: border-box;
+        color: #ffffff;
+        cursor: pointer;
+        display: inline-flex;
+        font-family: -apple-system, system-ui, system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Fira Sans", Ubuntu, Oxygen, "Oxygen Sans", Cantarell, "Droid Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Lucida Grande", Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        justify-content: center;
+        line-height: 20px;
+        max-width: 480px;
+        min-height: 40px;
+        min-width: 0px;
+        overflow: hidden;
+        padding: 0px;
+        padding-left: 20px;
+        padding-right: 20px;
+        text-align: center;
+        touch-action: manipulation;
+        transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+        user-select: none;
+        -webkit-user-select: none;
+        vertical-align: middle;
+      }
+
+      .button-18:hover,
+      .button-18:focus { 
+        background-color: #16437E;
+        color: #ffffff;
+      }
+
+      .button-18:active {
+        background: #09223b;
+        color: rgb(255, 255, 255, .7);
+      }
+
+      .button-18:disabled { 
+        cursor: not-allowed;
+        background: rgba(0, 0, 0, .08);
+        color: rgba(0, 0, 0, .3);
+      }
+
+      .alert_message {
+        display: none;
+      }
+
+      
+
+    </style>
+    <title>Hello, world!</title>
+  </head>
+  <body>
+
+    <canvas id="bg"></canvas>
+
+    <video style="width: 2000px;position: absolute;left: 50%;transform:translateX(-50%);" autoplay muted loop id="myVideo">
+        <source src="{{ url_for('frontend', path='planeback.mp4') }}" type="video/mp4">
+    </video>
+
+    <form id="searchForm" style="position: relative; top: -20px; width:500px; left: 550px;">
+      
+      <div style="position: relative;">
+        <label style="color: white;" for="dateofbirth"><b>Departure Date</b></label>
+        <input type="date" name="dateofbirth" id="dateofbirth">
+      </div>
+    
+
+      <div style="position: relative; top: -55px; left: 250px;">
+        <label style="color: white;" for="dateofbirth2"><b>Arrival Date</b></label>
+        <input class="arrdate" type="date" name="dateofbirth2" id="dateofbirth2">
+      </div>
+
+        <div class="row">
+            <div style="color: grey;" class="col">
+              <input id="hometown" type="text" class="form-control" placeholder="Home airport">
+            </div>
+            <div class="col">
+              <input id="destination" type="text" class="form-control" placeholder="Destination">
+            </div>
+          </div>
+        <br>
+
+        <div style="width: 350px;" class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">Class</label>
+            </div>
+            <select id="cabintype" class="custom-select" id="inputGroupSelect01">
+              <option selected>Choose...</option>
+              <option value="Economy">Economy</option>
+              <option value="Economy+">Economy+</option>
+              <option value="Business">Business</option>
+            </select>
+            <button style="position: relative; top: 150px; left: -40px; width: 150px;" type="submit" class="button-18" role="button">Search</button>
+        </div>
+
+        <div class="form-group">
+          <label style="color: white;" class="exampleFormControlSelect1"><b>Select amount of adults</b></label>
+          <select id="passengerSelector" class="form-control" id="exampleFormControlSelect1">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select>
+        </div>
+      
+      </form>
+
+      <nav style="position: relative; top:-320px; left:-400px;" class="navbar navbar-fixed-top navbar-expand-lg navbar-light bg-black">
+        <a href="{{url_for('root')}}" style="color: white" class="navbar-brand" href="#">Xwings</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a style="color: rgb(255, 255, 255)" class="nav-link" href="#">Services <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a style="color: white" class="nav-link" href="#">Tickets</a>
+            </li>
+            <li style="color: white" class="nav-item">
+              <a href="{{url_for('get_planes')}}" style="color: white" class="nav-link" href="#">Planes</a>
+            </li>
+            <li class="nav-item">
+              <a style="color: white" class="nav-link disabled" href="#">Disabled</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div style="width: 300px; position: relative; top:-20px; left:-850px;" class="card" style="width: 18rem;">
+        <img class="card-img-top" src="{{ url_for('frontend', path='belgrade.jpg') }}" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">Belgrade from 120$</h5>
+          <p class="card-text">Enjoy Belgrade and taste smoky Ćevapčići right in just one click and a couple of hours of comfortable flight</p>
+          <a href="#" class="btn btn-primary">Find tickets</a>
+        </div>
+      </div>
+
+      <div id="MessageBox" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Invalid input</h5>
+            </div>
+            <div class="modal-body">
+              <h7 id="error_msg">Please, check your input and try again</h7>
+            </div>
+            <div class="modal-footer">
+              <button onclick="$('#MessageBox').hide()" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <style>
+        [type="date"] {
+  background:#fff url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)  97% 50% no-repeat ;
+}
+[type="date"]::-webkit-inner-spin-button {
+  display: none;
+}
+[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
+
+/* custom styles */
+body {
+  padding: 4em;
+  background: #e5e5e5;
+  font: 13px/1.4 Geneva, 'Lucida Sans', 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
+}
+label {
+  display: block;
+}
+input {
+  border: 1px solid #c4c4c4;
+  border-radius: 5px;
+  background-color: #fff;
+  padding: 3px 5px;
+  box-shadow: inset 0 3px 6px rgba(0,0,0,0.1);
+  width: 190px;
+}
+      </style>
+
+      <script>
+        var form = document.getElementById("searchForm");
+  
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          const formData = new FormData(form);
+
+          var hometown = document.getElementById("hometown").value
+          var destination_ = document.getElementById("destination").value
+          var cabintype_ = document.getElementById("cabintype").value;
+          var departuredate_ = document.getElementById("dateofbirth").value;
+          var inputs = [hometown, destination_, departuredate_];
+          let forbidden = false;
+          
+          for (let i = 0; i < inputs.length; i++)
+          {
+             if (inputs[i] == null)
+             {
+               console.log(inputs[i]);
+               $('#MessageBox').show();
+               forbidden = true;
+               break;
+             }
+          }
+          if (hometown == destination_)
+          {
+              $('#MessageBox').show();
+              forbidden = true;
+          }
+          if (forbidden == false)
+          {
+            const url = "{{url_for('find_tickets')}}";
+            window.location.href = `${url}?hometown=${hometown}&destination=${destination_}&cabin_type=${cabintype_}&departure_date=${departuredate_}`
+          }
+
+        })
+      </script>
+     
+
+      <!--<label style="top: -200px; left: -350px; font-size: 40px; position:relative; color:rgb(255, 255, 255)" class="exampleFormControlSelect1"><b>WHERE ARE WE GOING THIS TIME?</b></label> !-->
+
+
+</body>
+</html>

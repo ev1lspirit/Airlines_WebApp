@@ -10,11 +10,6 @@ CREATE TABLE IF NOT EXISTS User(
    username varchar(20) NOT NULL,
    password varchar(100) NOT NULL)
 
-CREATE TABLE IF NOT EXISTS Booking(
-   pnr varchar(7) PRIMARY KEY,
-   book_date DATE NOT NULL,
-   passport integer references Passenger(passport));
-
 CREATE TABLE IF NOT EXISTS City(
     name varchar(40) PRIMARY KEY);
 
@@ -33,11 +28,12 @@ CREATE TABLE IF NOT EXISTS CabinType(
    extraFeeRatio REAL NOT NULL DEFAULT 1,
    SeatsAmount INTEGER NOT NULL);
 
+
 CREATE TABLE IF NOT EXISTS Airplane(
    boardno integer PRIMARY KEY,
    planemodel varchar(40) references AirplaneModel(model),
    boardname varchar(40));
-   
+
 
 CREATE TABLE IF NOT EXISTS Flight(
    flightNo integer PRIMARY KEY,
@@ -48,6 +44,51 @@ CREATE TABLE IF NOT EXISTS Flight(
    departureTime TIME NOT NULL,
    arrivalTime TIME NOT NULL,
    airplane integer references Airplane(boardno));
+
+CREATE TABLE IF NOT EXISTS SeatRow(
+   rowno integer,
+   title varchar(15) references CabinType(title),
+   extraFeeRatio REAL NOT NULL DEFAULT 1,
+   primary key (rowno, title));
+
+CREATE TABLE IF NOT EXISTS Seat(
+   seatno varchar(1),
+   title varchar(15),
+   rowno integer,
+   foreign key (rowno, title) references SeatRow(rowno, title),
+   primary key (seatno, rowno, title));
+
+CREATE TABLE IF NOT EXISTS Booking (
+  pnr varchar(13) PRIMARY KEY,
+  holder_passport integer references Passenger(passport));
+
+CREATE TABLE IF NOT EXISTS Ticket(
+  ticketno integer PRIMARY KEY,
+  pnr varchar(13) references Booking(pnr),
+  seatno varchar(1),
+  rowno integer,
+  title varchar(15),
+  FOREIGN KEY (seatno, rowno, title) references Seat(seatno, rowno, title));
+
+
+CREATE TABLE IF NOT EXISTS TicketService(
+    ticketno integer references Ticket(ticketno) ON UPDATE CASCADE ON DELETE CASCADE,
+    service_id integer references Service(service_id) ON DELETE CASCADE,
+    CONSTRAINT bill_product_pkey PRIMARY KEY (ticketno, service_id));
+
+    
+CREATE TABLE IF NOT EXISTS Service (
+    service_id integer PRIMARY KEY,
+    service_price integer not null);
+
+
+    
+  
+
+
+  
+  
+
    
 
  

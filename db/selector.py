@@ -2,6 +2,21 @@ from .models import ExecutionResponse, Tables, Field, Fields
 import typing as tp
 
 
+class BaseExists:
+    template = str()
+
+    def where(self, clause: Field):
+        pass
+
+
+class exists(BaseExists):
+    template = 'EXISTS( SELECT 1 FROM {field} WHERE {clause});'
+
+
+class not_exists(BaseExists):
+    template = 'NOT EXISTS( SELECT 1 FROM {field} WHERE {clause});'
+
+
 class Selector:
     template = "SELECT {fields} FROM {tables} ;"
     clause = "WHERE {clause} ;"
@@ -49,6 +64,7 @@ class Selector:
 
         if query is None:
             return ExecutionResponse(query=query, response=result, error=error)
+        print(query)
 
         try:
             cursor.execute(query)

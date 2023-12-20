@@ -6,10 +6,6 @@ __all__ = "Alias", "Table", "Field", "Fields", "CrossJoin", "LeftJoin", "FullOut
           "Join", "ExecutionResponse"
 
 
-# psql -U dankosmynin -d WebAirlines -p 9090
-# insert into passenger values (4, 'Waffel', 'Johnson', '1982-08-02', '+7963543535');
-
-
 class Tables:
     def __init__(self, *table_names):
         self.table_names = set(field.name if isinstance(field, Table) else str(field) for field in table_names)
@@ -38,10 +34,11 @@ class Fields:
 
 
 class Field:
-    __slots__ = "value"
+    __slots__ = "value", "_dep"
 
-    def __init__(self, *, value):
+    def __init__(self, *, value, _dep=()):
         self.value = str(value)
+        self._dep = _dep
 
     def __eq__(self, other: str):
         return Field(value="{value} = '{other}'".format(value=str(self.value), other=other))
@@ -62,10 +59,10 @@ class Field:
         return Field(value="{value} <> '{other}'".format(value=str(self.value), other=other))
 
     def __and__(self, other):
-        return Field(value="{value} and {other}".format(value=str(self.value), other=other.value))
+        return Field(value="({value} and {other})".format(value=str(self.value), other=other.value))
 
     def __or__(self, other):
-        return Field(value="{value} or {other}".format(value=str(self.value), other=other.value))
+        return Field(value="({value} or {other})".format(value=str(self.value), other=other.value))
 
 
 @dataclass(frozen=True)
@@ -88,7 +85,7 @@ class Table:
         return CrossJoin(first_table=self, other_table=other)
 
     def __getattr__(self, item):
-        return Field(value=".".join((self.name, str(item))))
+        return Field(value='.'.join((self.name, str(item))), _dep=self.name)
 
 
 class BaseJoin:

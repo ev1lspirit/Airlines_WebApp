@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Query
-from additional import make_json
 from db import Connector
 import typing as tp
 from dataclasses import dataclass

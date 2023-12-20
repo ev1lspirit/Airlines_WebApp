@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/datepicker.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <style>
+      .pagination {
+          position: absolute;
+          top: 45px;
+          left: 95%;
+          transform: translate(-50%, -50%);
+          padding: 10px;
+        }
+    </style>
+    
+<div style="position: relative; width: 650px; left: 500px;" id="accordion">
+  <div style="float: top; position: relative; left: -500px;" class="navbar">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
+      <a class="navbar-brand" href="#">Xwings</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Tickets</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Planes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Disabled</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+  <br></br>
+  <div id="block1" class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <div class="card h-1 w-150">
+          <div class="card-body">
+            <h7 style="float: right;">XWINGS AIRLINES <img style="height: 20px;" src="{{ url_for('frontend', path='peace.png') }}"></h7>
+            <h5 id="opt1header" class="card-title"></h5>
+            <p id="opt1header_date" class="card-text"></p>
+          </div>
+        </div>
+        <button class="btn btn-link " data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          <h7>Direct</h7>
+        </button>
+      </h5>
+    </div>
+      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="card-body">
+          <div class="card">
+            <div style="background-color: rgba(5, 153, 251, 0.06);" class="card-body">
+              <h8><b>Economy Class</b></h8>
+              <br><br>
+              <div id="EconomyClassBar" class="card" style="width: 18rem;">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><img style="height: 15px;" src="{{ url_for('frontend', path='cross.png') }}"/><span>      </span>Luggage: not included</li>
+                  <li class="list-group-item"><img style="height: 15px;" src="{{ url_for('frontend', path='cross.png') }}"/><span>      </span>This ticket cannot be returned</li>
+                  <li class="list-group-item"><img style="height: 15px;" src="{{ url_for('frontend', path='checked.png') }}"/><span>      </span>Hand luggage: 10kg, 50x33x20</li>
+                </ul>
+              </div>
+              <a style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
+            </div>
+          </div>
+          <div class="card">
+            <div style="background-color: rgba(5, 153, 251, 0.06);" class="card-body">
+              <h8><b>Economy+</b></h8>
+              <br><br>
+              <div id="EconomyPlusClassBar" class="card" style="width: 18rem;">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><img style="height: 15px;" src="{{ url_for('frontend', path='dollar.png') }}"/><span>        </span>Extra fee for return</li>
+                  <li class="list-group-item"><img style="height: 15px;" src="{{ url_for('frontend', path='checked.png') }}"/><span>      </span>Luggage: 23 kg</li>
+                  <li class="list-group-item"><img style="height: 15px;" src="{{ url_for('frontend', path='checked.png') }}"/><span>      </span>Hand luggage: 10kg, 50x33x20</li>
+                </ul>
+              </div>
+              <a style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
+            </div>
+          </div>
+          <div class="card">
+            <div style="background-color: rgba(194, 5, 251, 0.36);" class="card-body">
+              <h8><b>Business</b></h8>
+              <br><br>
+              <div id="BusinessClassBar" class="card" style="width: 18rem;">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><img style="height: 15px;" src="{{ url_for('frontend', path='checked.png') }}"/><span>        </span>Return is free.</li>
+                  <li class="list-group-item"><img style="height: 15px;" src="{{ url_for('frontend', path='checked.png') }}"/><span>      </span>Luggage: 40 kg</li>
+                  <li class="list-group-item"><img style="height: 15px;" src="{{ url_for('frontend', path='checked.png') }}"/><span>      </span>Hand luggage: 20kg, 100x50x45</li>
+                  <li class="list-group-item"><img style="height: 15px;" src="{{ url_for('frontend', path='checked.png') }}"/><span>      </span>Business lounge at the airport</li>
+                </ul>
+              </div>
+              <a style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="block2" class="card">
+      <div class="card-header" id="headingTwo">
+        <h5 class="mb-0">
+          <div class="card h-1 w-150">
+            <div class="card-body">
+              <h7 style="float: right;">XWINGS AIRLINES <img style="height: 20px;" src="{{ url_for('frontend', path='peace.png') }}"></h7>
+              <h5 id="opt2header" class="card-title"></h5>
+              <p id="opt2header_date" class="card-text"></p>
+            </div>
+          </div>
+          <button class="btn btn-link " data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+            <h7>Direct</h7>
+          </button>
+        </h5>
+      </div>
+        <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
+          <div class="card-body">
+            <div class="card">
+              <div style="background-color: rgba(5, 153, 251, 0.06);" class="card-body">
+                <h8><b>Economy Class</b></h8>
+                <div id="2classbar"></div>
+                <a style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
+              </div>
+            </div>
+            <div class="card">
+              <div style="background-color: rgba(5, 153, 251, 0.06);" class="card-body">
+                <h8><b>Economy+</b></h8>
+                <div id="2classbarplus"></div>
+                <a style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
+              </div>
+            </div>
+            <div class="card">
+              <div style="background-color: rgba(194, 5, 251, 0.36);" class="card-body">
+                <h8><b>Business</b></h8>
+                <br><br>
+                <div id="2classbarpremium"></div>
+                <a style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div id="block3" class="card">
+        <div class="card-header" id="headingThree">
+          <h5 class="mb-0">
+            <div class="card h-1 w-150">
+              <div class="card-body">
+                <h7 style="float: right;">XWINGS AIRLINES <img style="height: 20px;" src="{{ url_for('frontend', path='peace.png') }}"></h7>
+                <h5 id="opt3header" class="card-title"></h5>
+                <p id="opt3header_date" class="card-text"></p>
+              </div>
+            </div>
+            <button class="btn btn-link " data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+              <h7>Direct</h7>
+            </button>
+          </h5>
+        </div>
+          <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
+            <div class="card-body">
+              <div class="card">
+                <div style="background-color: rgba(5, 153, 251, 0.06);" class="card-body">
+                  <h8><b>Economy Class</b></h8>
+                  <br><br>
+                  <div id="3classbar">
+
+                  </div>
+                  <a style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
+                </div>
+              </div>
+              <div class="card">
+                <div style="background-color: rgba(5, 153, 251, 0.06);" class="card-body">
+                  <h8><b>Economy+</b></h8>
+                  <br><br>
+                  <div id="3classbarplus"></div>
+                  <a style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
+                </div>
+              </div>
+              <div class="card">
+                <div style="background-color: rgba(194, 5, 251, 0.36);" class="card-body">
+                  <h8><b>Business</b></h8>
+                  <br><br>
+                  <div id="3classbarpremium"></div>
+                  <a style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    <div style="position: relative; left: 0px;" class="pagination">
+      <nav aria-label="Пример навигации по страницам">
+        <ul class="pagination">
+          <li class="page-item"><button id="next" class="page-link">Предыдущая</button></li>
+          <li class="page-item"><button id="1" class="page-link" href="#">1</button></li>
+          <li class="page-item"><button id="2" class="page-link" href="#">2</button></li>
+          <li class="page-item"><button id="3" class="page-link" href="#">3</button></li>
+          <li class="page-item"><a id="next" class="page-link" href="#">Следующая</a></li>
+        </ul>
+      </nav>
+    </div>
+    </div>
+
+    <script>
+      var fst_page = document.getElementById("1");
+      var snd_page = document.getElementById("2");
+      var thr_page = document.getElementById("3");
+      var html_blocks = ['#block3', '#block2',  '#block1'];
+      var ticket_headers = ["#opt1header", "#opt2header", "#opt3header"];
+      var shown = html_blocks.length;
+      var url = "{{url_for('get_list_of_tickets')}}";
+      fetchPage(`${url}?page=1&size=3`);
+      var last_hidden = 0;
+      $('#EconomyClassBar').clone().appendTo("#2classbar")
+      $('#EconomyClassBar').clone().appendTo("#3classbar")
+
+      $('#EconomyPlusClassBar').clone().appendTo("#2classbarplus");
+      $('#EconomyPlusClassBar').clone().appendTo("#3classbarplus");
+
+      $('#BusinessClassBar').clone().appendTo("#2classbarpremium");
+      $('#BusinessClassBar').clone().appendTo("#3classbarpremium");
+
+
+      function hideBlocks(amount)
+      {
+        var limit = last_hidden + amount;
+        for (let i = last_hidden; i < limit; i++)
+        {
+          $(html_blocks[i]).hide();
+          shown--;
+          last_hidden++;
+        }
+      }
+
+      function showBlocks(amount)
+      {
+        var limit = last_hidden - amount;
+        for (let i = last_hidden; i != limit-1; i--)
+        {
+          $(html_blocks[i]).show();
+          shown++;
+          last_hidden--;
+        }
+      }
+
+      function fetchPage(url_with_query)
+      {
+        fetch(url_with_query)
+          .then(response => response.json())
+          .then(data => {
+            let json = $.parseJSON(JSON.stringify(data));
+            var items = data["items"];
+            
+            console.log(items.length);
+            for (let i = 0; i < items.length; i++)
+            {
+              $(ticket_headers[i]).html(`${items[i]['dep_time']}&nbsp; <font size='1'>${items[i]['home_code']}</font> &nbsp;&nbsp;&nbsp; <font size='1'>${items[i]['dest_code']}</font>&nbsp; ${items[i]['arr_time']}`);
+              $(ticket_headers[i] + "_date").html(`<font size="2">${items[i]['dep_date']}</font> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font size="2">${items[i]['arr_date']}</font>`);
+            }
+            console.log(shown);
+            console.log(items.length);
+
+            if (shown < items.length)
+            {
+              showBlocks(items.length - shown);
+            }
+            else if (items.length < shown)
+            {
+              hideBlocks(shown - items.length)
+            }
+            
+            $(document).ready(function(){
+                $(window).scrollTop(0);    
+          });
+        });
+      }
+
+      fst_page.addEventListener("click", (event) => {
+          event.preventDefault();
+          let url_wtih_query = `${url}?page=1&size=3`
+          fetchPage(url_wtih_query);
+      });
+
+      snd_page.addEventListener("click", (event) => {
+          event.preventDefault();
+          let url_wtih_query = `${url}?page=2&size=3`
+          fetchPage(url_wtih_query);
+          })
+
+      thr_page.addEventListener("click", (event) => {
+          event.preventDefault();
+          let url_wtih_query = `${url}?page=3&size=3`
+          fetchPage(url_wtih_query);
+          })
+      
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>

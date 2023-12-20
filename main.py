@@ -1,9 +1,13 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Response, File, UploadFile
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
 import uvicorn
 from db import Connector
 from db.models import ExecutionResponse
 import routes
 from auth import auth_router
+from fastapi import Request
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 
 
 # psql -p 9090 -U dankosmynin -d WebAirlines
@@ -11,6 +15,8 @@ from auth import auth_router
 WebAirlineApp = FastAPI()
 WebAirlinesDB = Connector.get(dbase="WebAirlines")
 
+WebAirlineApp.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
+templates = Jinja2Templates(directory="templates")
 
 WebAirlineApp.include_router(routes.search_router)
 WebAirlineApp.include_router(routes.status_router)
@@ -20,8 +26,15 @@ WebAirlineApp.include_router(auth_router)
 
 
 @WebAirlineApp.get("/")
-def root():
-    return {"Welcome": "Hi"}
+def root(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+
+@WebAirlineApp.get("/earth_texture.jpg")
+def get_texture():
+    import os
+    print(os.getcwd())
+    return FileResponse("{cwd}/frontend/earth_texture.jpg".format(cwd=os.getcwd()))
 
 
 @WebAirlineApp.get('/admin/db')
@@ -32,6 +45,6 @@ def get_db():
 
 
 if __name__ == "__main__":
-    uvicorn.run(WebAirlineApp, host="192.168.68.151", port=8000)
+    uvicorn.run(WebAirlineApp, host="192.168.16.151", port=8000)
 
 
