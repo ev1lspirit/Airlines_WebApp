@@ -1,0 +1,185 @@
+insert into city values ('Machachkala');
+insert into city values ('Moscow');
+insert into city values ('Saint Petersburg');
+insert into city values ('Ekaterinburg');
+insert into city values ('Samara');
+insert into city values ('Sochi');
+insert into city values ('Mineralyniye Vody');
+insert into city values ('Baku');
+insert into city values ('Istanbul');
+insert into city values ('London');
+insert into city values ('Dubai');
+insert into city values ('Male');
+insert into city values ('Hong Kong');
+insert into city values ('Seoul');
+insert into city values ('Belgrade');
+insert into city values ('Cairo');
+
+
+insert into airport values ('SVO', 'Moscow');
+insert into airport values ('DME', 'Moscow');
+insert into airport values ('DME', 'Moscow');
+insert into airport values ('KUF', 'Samara');
+insert into airport values ('GYD', 'Baku');
+insert into airport values ('IST', 'Istanbul');
+insert into airport values ('LED', 'Saint Petersburgh');
+insert into airport values ('MCX', 'Machachkala');
+insert into airport values ('MRV', 'Mineralyniye Vody');
+insert into airport values ('HKD', 'Hong Kong');
+insert into airport values ('IST', 'Istanbul');
+insert into airport values ('MLE', 'Male');
+insert into airport values ('ICN', 'Seoul');
+insert into airport values ('BEG', 'Belgrade');
+
+insert into airplanemodel values ('737 Max', 'Boeing', 4500, 35000);
+insert into airplanemodel values ('SuperJet', 'Sukhoi', 4200, 34560);
+
+insert into airplanemodel values ('A320 neo', 'Airbus', 4700, 36120);
+
+insert into airplane values (515, '737 Max', 'Gagarin');
+insert into airplane values (516, 'A320 neo', 'Korolyov');
+insert into airplane values (517, '737 Max', 'Tsioklovsky');
+insert into airplane values (518, 'SuperJet', 'Kolmogorov');
+insert into airplane values (519, 'A320 neo', 'Mayakovsky');
+
+insert into Flight values (201, 'DME', 'KUF', '2023-12-23', '2023-12-23', '06:10:00', '08:30:00', 516);
+
+insert into Flight values (200, 'DME', 'ICN', '2023-12-23', '2023-12-23', '06:10:00', '08:30:00', 516);
+insert into Flight values (209, 'SVO', 'KUF', '2023-12-23', '2023-12-23', '14:10:00', '17:30:00', 517);
+
+insert into Flight values (205, 'SVO', 'BEG', '2023-12-23', '2023-12-24', '21:45:00', '00:50:00', 519);
+insert into Flight values (210, 'DME', 'KUF', '2023-12-23', '2023-12-23', '16:10:00', '18:30:00', 520);
+insert into Flight values (211, 'DME', 'KUF', '2023-12-23', '2023-12-23', '20:10:00', '23:00:00', 521);
+
+insert into Flight values (213, 'DME', 'KUF', '2023-12-23', '2023-12-23', '20:45:00', '23:35:00', 523);
+insert into Flight values (214, 'DME', 'KUF', '2023-12-23', '2023-12-23', '00:45:00', '03:25:00', 524);
+insert into Flight values (215, 'SVO', 'KUF', '2023-12-23', '2023-12-23', '04:45:00', '07:25:00', 525);
+
+insert into Flight values (227, 'KUF', 'DME', '2023-12-25', '2023-12-25', '20:45:00', '23:35:00', 531);
+
+insert into Flight values (228, 'KUF', 'DME', '2023-12-24', '2023-12-24', '21:45:00', '00:00:00', 529);
+insert into Flight values (229, 'KUF', 'DME', '2023-12-25', '2023-12-25', '04:45:00', '07:25:00', 530);
+
+insert into Flight values (212, 'SVO', 'KUF', '2023-12-23', '2023-12-24', '23:55:00', '01:40:00', 517);
+insert into Flight values (225, 'DME', 'BEG', '2023-12-23', '2023-12-23', '17:55:00', '20:15:00', 515);
+insert into Flight values (226, 'BEG', 'DME', '2023-12-23', '2023-12-23', '20:15:00', '23:55:00', 528);
+
+insert into CabinType values ('Economy', 1, 0);
+insert into CabinType values ('Economy+', 1.5, 0);
+insert into CabinType values ('Business', 3.5, 0);
+
+insert into SeatRow values (
+1, 'Business', 1.2);
+insert into SeatRow values (
+2, 'Business', 1.15);
+insert into SeatRow values (
+3, 'Business', 1.1);
+insert into SeatRow values (
+4, 'Business', 1);
+insert into SeatRow values (
+5, 'Business', 1);
+insert into SeatRow values (
+6, 'Business', 1);
+insert into SeatRow values (
+7, 'Business', 1.2);
+insert into SeatRow values (
+8, 'Economy+', 1.3);
+insert into SeatRow values (
+9, 'Economy+', 1.3);
+insert into SeatRow values (
+10, 'Economy+', 1.2);
+11, 'Economy+', 1.2);
+insert into SeatRow values (
+12, 'Economy+', 1.2);
+insert into SeatRow values (
+13, 'Economy+', 1.2);
+
+
+insert into SeatRow values (
+14, 'Economy', 1.2);
+insert into SeatRow values (
+15, 'Economy', 1.2);
+insert into SeatRow values (
+16, 'Economy', 1.2);
+insert into SeatRow values (
+17, 'Economy', 1.2);
+insert into SeatRow values (
+18, 'Economy', 1.2);
+insert into SeatRow values (
+19, 'Economy', 1.15);
+insert into SeatRow values (
+20, 'Economy', 1.15);
+insert into SeatRow values (
+21, 'Economy', 1.15);
+insert into SeatRow values (
+22, 'Economy', 1.15);
+insert into SeatRow values (
+23, 'Economy', 1.15);
+insert into SeatRow values (
+24, 'Economy', 1.1);
+insert into SeatRow values (
+25, 'Economy', 1);
+insert into SeatRow values (
+27, 'Economy', 1);
+insert into SeatRow values (
+28, 'Economy', 1);
+insert into SeatRow values (
+29, 'Economy', 1.1);
+insert into SeatRow values (
+30, 'Economy', 1);
+insert into SeatRow values (
+31, 'Economy', 1);
+insert into SeatRow values (
+32, 'Economy', 1);
+insert into SeatRow values (
+33, 'Economy', 1);
+insert into SeatRow values (
+34, 'Economy', 1);
+insert into SeatRow values (
+35, 'Economy', 1);
+insert into SeatRow values (
+36, 'Economy', 1);
+insert into SeatRow values (
+37, 'Economy', 1);
+
+insert into SeatRow values (
+37, 'Economy', 1);
+
+ALTER TABLE Service ADD COLUMN description varchar(40);
+insert into Service values(1, 39, 'Meal');
+insert into Service values(2, 29, 'Pets');
+insert into Service values(3, 19, 'Alcohol drinks during the flight');
+
+// Q0RSL749M0174
+// F8AO1LAD973Q7  1034567892
+Flight.departureairport, Flight.arrivalairport,
+                                        Flight.departuredate, Flight.arrivaldate,
+                                        Flight.departuretime, Flight.arrivaltime,
+                                        Flight.airplane
+def class_yielder():
+    for _ in range(4, 8):
+        yield "Business"
+
+    for _ in range(8, 14):
+        yield "Economy+"
+
+    while True:
+        yield "Economy"
+
+
+def seat_yielder():
+    while True:
+        yield from ["A", "B", "C", "D", "E", "F"]
+
+schema = "insert into Seat values ('{sat}', '{class_}', {rowno});"
+sq2 = seat_yielder()
+cls = class_yielder()
+for i in range(4, 38):
+    val = next(cls)
+    for _ in range(6):
+        print(schema.format(sat=next(sq2), class_=val, rowno=i))
+
+
+
+
+

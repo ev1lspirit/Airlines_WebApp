@@ -138,7 +138,8 @@ class OpenConnectionClass(BaseConnectionClass):
         error = None
         response = None
         try:
-            self.cursor.execute(query)
+            response = self.cursor.execute(query)
+            response = self.cursor.fetchall()
         except Exception as exc:
             error = str(exc)
 
@@ -152,6 +153,7 @@ class OpenConnectionClass(BaseConnectionClass):
             print("Expected Sequence[str]", err)
             return ExecutionResponse(response=None, query=None, error={"error": "Expected Sequence[str] {err}".format(err=err)})
 
+        values = tuple(values)
         query = scheme.format(into=into, fields=fields, values=values)
         error = True
         error_map = {"error_code": 500, "cause": None}
@@ -173,6 +175,17 @@ class OpenConnectionClass(BaseConnectionClass):
         return ExecutionResponse(query=query,
                                  response=resp if not error else None,
                                  error=error_map if error else None)
+
+    def execute(self, query):
+        error = None
+        response = None
+        try:
+            response = self.cursor.execute(query)
+            print('Successfull')
+        except Exception as exc:
+            error = str(exc)
+        return ExecutionResponse(error=error, response=response, query=query)
+
 
 
 class Connector:

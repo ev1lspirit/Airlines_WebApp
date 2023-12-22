@@ -1,0 +1,154 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <nav style="position: relative; top: 0px; left: 0px;" class="navbar navbar-fixed-top navbar-expand-lg navbar-light bg-white">
+        <a href="{{url_for('root')}}" style="color: rgb(0, 0, 0)" class="navbar-brand" href="#">Xwings</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a style="color: rgb(0, 0, 0)" class="nav-link" href="#">Services <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a style="color: rgb(0, 0, 0)" class="nav-link" href="{{url_for('search_tickets_handler')}}">Tickets</a>
+            </li>
+            <li style="color: rgb(0, 0, 0)" class="nav-item">
+              <a href="{{url_for('get_planes')}}" style="color: rgb(0, 0, 0)" class="nav-link" href="{{url_for('get_status')}}">PNR</a>
+            </li>
+            <li class="nav-item">
+              <a style="color: rgb(0, 0, 0)" class="nav-link disabled" href="#">Disabled</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    <br><br><br><br>
+
+
+   <form style="display: flex; justify-content: center;"id="searchForm">
+    <div style="width: 500px" class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon1">PNR</span>
+    </div>
+    <input id="pnr" type="text" class="form-control" placeholder="PNR" aria-label="Username" aria-describedby="basic-addon1">
+  </div>
+  </form>
+  
+  <form style="display: flex; justify-content: center;"id="searchFor2">
+  <div style="width: 500px"  class="input-group mb-3">
+    <input id="passport" type="text" class="form-control" placeholder="Passport" aria-label="Recipient's username" aria-describedby="basic-addon2">
+  </div>
+  </form>
+
+  <div style="display: flex; justify-content: center;">
+    <button id="search" style="width: 100px;" type="button" class="btn btn-primary" data-dismiss="modal">Find PNR</button>
+  </div>
+
+  <br>
+  <div id="ticketsBadge" style="display: flex; justify-content: center;">
+    <div style="width: 500px;"class="alert alert-primary" role="alert">
+        Your XWINGS tickets:
+    </div>
+  </div>
+
+  <div id="warnning" style="display: flex; justify-content: center;">
+  <div style="width: 500px;" class="alert alert-danger" role="alert">
+    Nothing found
+  </div>
+  </div>
+  
+  <div style="display: flex; justify-content: center;" id="searchBox">
+    <div style="width: 500px;" id="block2" class="card">
+        <div class="card-header" id="headingTwo">
+        <h5 class="mb-0">
+            <div class="card h-1 w-150">
+            <div class="card-body">
+                <h11 style="float: left;" id="pnrspan"></h11>
+                <h7 style="float: right;"><span>              </span>XWINGS AIRLINES <img style="height: 20px;" src="{{ url_for('frontend', path='peace.png') }}"></h7>
+                <h5 id="opt2header" class="card-title"></h5>
+                <p id="opt2header_date" class="card-text"></p>
+                <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
+                    <div class="card-body">
+                      <div class="card">
+                        <div style="background-color: rgba(5, 153, 251, 0.06);" class="card-body">
+                        <h7 id="ticketinfospan" style="float: left;"><span>              </span></h7>
+                        <h11 id="datespan"></h11>
+                        <h11 style="float: right;" id="classspan"></h11>
+                        <h5 id="opt2header" class="card-title"></h5>
+                          <br><br>
+                          <div id="3classbar">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+            </div>
+            </div>
+        </h5>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $('#searchBox').hide();
+    $('#ticketsBadge').hide();
+    $("#warnning").hide();
+
+    function fetchTickets()
+    {
+        let url = `{{url_for('find_booking')}}`;
+        let pnr = $('#pnr').val();
+        let passport = $('#passport').val();
+        let final_url = `${url}?pnr=${pnr}&passport=${passport}`;
+
+        fetch(final_url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(function (a) {
+                    return a.json(); // call the json method on the response to get JSON
+            })
+            .then(function (json) {
+                console.log(json);
+                if (json.length == 0)
+                    return null;
+
+                if (json["status"] == 500){
+                    console.log('')
+                    $('#ticketsBadge').hide();
+                    $('#searchBox').hide();
+                    $("#warnning").show();
+                    return null;
+                }
+                else
+                {
+                  $("#warnning").hide();
+                  $('#searchBox').show();
+                  $('#ticketsBadge').show();
+                }
+                let pnr = json["pnr"];
+                let hometown = json["hometown"];
+                let destination = json["destination"];
+                let tickets = json["tickets"];
+                $('#ticketinfospan').html(`${tickets[0]['dep_time']}&nbsp; <font size='2'>${tickets[0]['hometown']}</font> &nbsp;&nbsp;&nbsp; <font size='2'>${tickets[0]['destination']}</font>&nbsp; ${tickets[0]['arr_time']} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font size=2> Seat: ${tickets[0]["seat"]} Row: ${tickets[0]["row"]}</font>`)
+                $('#datespan').html(`<br><font size="2">${tickets[0]['dep_date']}</font> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font size="2">${tickets[0]['arr_date']}</font>`)
+                $('#classspan').html(`<font size="2">Class: ${tickets[0]['type']}</font>`)
+                $('#pnrspan').html(`<font size=3>${pnr}</font>`);
+            })
+
+    }
+    document.getElementById("search").addEventListener("click", 
+        (event) => {
+            fetchTickets();
+        })
+</script>
+
+</body>
+</html>

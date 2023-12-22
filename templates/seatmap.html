@@ -1,0 +1,333 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{{ url_for('frontend', path='jquery.seat-charts.css') }}">
+<style>
+body {
+	font-family: 'Lato', sans-serif;
+}
+a {
+	color: #b71a4c;
+}
+.front-indicator {
+	width: 100%;
+	margin: 5px 32px 15px 32px;
+	background-color: #f6f6f6;	
+	color: #adadad;
+	text-align: center;
+	padding: 3px;
+	border-radius: 5px;
+}
+.wrapper {
+/* 	width: 400px; */
+}
+.container {
+	margin: 0 auto;
+/* 	width: 500px; */
+	text-align: left;
+}
+.seat-stat-wrapper {
+  width: 100%;
+}
+#legend {
+  width: 49%;
+  margin: 0 auto;
+  float: left;
+}
+.booking-details {
+  display: inline-block;
+	text-align: right;
+	font-size: 12px;
+  width: 49%;
+  margin: 0 auto;
+}
+@media screen and (max-width: 550px) {
+  #legend {
+    width: 100%;
+  }
+  .booking-details {
+    width: 100%;
+    text-align: left;
+  }
+}
+.booking-details h2 {
+	margin: 25px 0 20px 0;
+	font-size: 17px;
+}
+.booking-details h3 {
+	margin: 5px 5px 0 0;
+	font-size: 14px;
+}
+div.seatCharts-cell {
+	color: #182C4E;
+	height: 25px;
+	width: 25px;
+	line-height: 25px;
+	
+}
+div.seatCharts-seat {
+	color: #FFFFFF;
+	cursor: pointer;	
+}
+div.seatCharts-row {
+	height: 35px;
+}
+div.seatCharts-seat.available {
+	background-color: #B9DEA0;
+
+}
+div.seatCharts-seat.available.vip-class {
+	background-color: #3a78c3;
+}
+div.seatCharts-seat.available.standard-ground-class {
+	background-color: orange;
+}
+div.seatCharts-seat.available.standard-balcony-class {
+	background-color: purple;
+}
+div.seatCharts-seat.available.student-class {
+	background-color: blue;
+}
+div.seatCharts-seat.focused {
+	background-color: #76B474;
+}
+div.seatCharts-seat.selected {
+	background-color: #E6CAC4;
+}
+div.seatCharts-seat.unavailable {
+	background-color: #472B34;
+}
+.seat-chart-wrapper {
+/*   width: 600px; */
+  overflow: scroll;
+}
+div.seatCharts-container {
+	border-right: 1px dotted #adadad;
+	width: 1767px;
+	padding: 20px;
+  
+/* 	float: left; */
+}
+div.seatCharts-legend {
+  display: inline-block;
+}
+
+div.seatCharts-legend li {
+  text-align: left;
+}
+
+ul.seatCharts-legendList {
+	padding-left: 0px;
+}
+span.seatCharts-legendDescription {
+	margin-left: 5px;
+	line-height: 30px;
+}
+.checkout-button {
+/* 	display: block; */
+	margin: 10px 0;
+	font-size: 14px;
+}
+#selected-seats {
+	overflow-y: scroll;
+	overflow-x: none;
+}
+</style>
+</head>
+
+<body>
+<div class="wrapper">
+	<div>
+<div class="seat-chart-wrapper">
+  <div id="seat-map">
+	<div class="front-indicator">Front</div>
+  </div>
+</div>
+<br/>
+<div class='seat-stat-wrapper'>
+  <div id="legend"></div>
+  <div class="booking-details">
+	<h2>Booking Details</h2>
+
+	<h3> Selected Seats (<span id="counter">0</span>):</h3>
+	<ul id="selected-seats"></ul>
+
+	<h4>Total: Rs.<span id="total">0</span><h4>
+
+	<button class="checkout-button">Checkout &raquo;</button>
+  </div>
+</div>
+	</div>
+</div>
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"></script> 
+<script src="{{ url_for('frontend', path='jquery.seat-charts.js') }}"></script> 
+<script>
+var firstSeatLabel = 1;
+
+$(document).ready(function() {
+	var $cart = $('#selected-seats'),
+		$counter = $('#counter'),
+		$total = $('#total'),
+		sc = $('#seat-map').seatCharts({
+		map: [
+
+		'ppp_ppp',
+		'',
+		'ppp_pfp',
+		'ppp_ppp',
+		'',
+		'ppp_ppp',
+		'ppp_ppp',
+		'ppp_ppp',
+		'',
+		'ppp_ppp',
+		'ppp_ppp',
+		'ppp_ppp',
+		'',
+		'ppp_ppp',
+		'ppp_ppp',
+		'ppp_ppp',
+		'ppp_ppp',
+		'ppp_ppp',
+		'ppp_ppp',
+		'ggg_ggg',
+		'ggg_ggg',
+		'ggg_ggg',
+		'ggg_ggg',
+		'ggg_ggg',
+		'ggg_ggg',
+		'ggg_ggg',
+		'ggg_ggg',
+		'ggg_ggg',
+		'ggg_ggg',
+		'',
+
+		],
+		seats: {
+p: {
+				price   : 5000,
+				classes : 'vip-class',
+				category: 'VIP Ticket'
+			},
+k: {
+				price   : 2500,
+				classes : 'standard-balcony-class',
+				category: 'Standard Ticket (Balcony)'
+			},
+j: {
+				price   : 2500,
+				classes : 'standard-balcony-class',
+				category: 'Standard Ticket (Balcony)'
+			},
+i: {
+				price   : 2500,
+				classes : 'standard-ground-class',
+				category: 'Standard Ticket (Ground)'
+			},
+h: {
+				price   : 2500,
+				classes : 'standard-ground-class',
+				category: 'Standard Ticket (Ground)'
+			},
+g: {
+				price   : 2500,
+				classes : 'standard-ground-class',
+				category: 'Standard Ticket (Ground)'
+			},
+c: {
+				price   : 1250,
+				classes : 'student-class',
+				category:  'Already Booked'
+			},
+		
+		},
+		naming : {
+rows: ['P','','K','J','','I','H','G','','C'],
+			top : false,
+			getLabel : function (character, row, column) {
+  if (row == 'P') {
+	return column;
+  } else if (row == 'K' || row == 'J') {
+	return column;
+  } else if (row == 'I' || row == 'H' || row == 'G') {
+	return column;
+  } else if (row == 'C') {
+	return column;
+  }
+			},
+		},
+		legend : {
+			node : $('#legend'),
+			items : [
+	[ 'p', 'available',   'VIP Ticket' ],
+	[ 'k', 'available',   'Standard Ticket (Balcony)' ],
+	[ 'i', 'available',   'Standard Ticket (Ground)'],
+	[ 'c', 'available', 'Student Ticket'],
+	[ 'f', 'unavailable', 'Already Booked']
+			]					
+		},
+		click: function () {
+			if (this.status() == 'available') {
+				//let's create a new <li> which we'll add to the cart items
+				$('<li>'+this.data().category+' Seat # '+this.settings.label+': <b>Rs.'+this.data().price+'</b> <a href="#" class="cancel-cart-item">[cancel]</a></li>')
+					.attr('id', 'cart-item-'+this.settings.id)
+					.data('seatId', this.settings.id)
+					.appendTo($cart);
+				
+				/*
+				 * Lets update the counter and total
+				 *
+				 * .find function will not find the current seat, because it will change its stauts only after return
+				 * 'selected'. This is why we have to add 1 to the length and the current seat price to the total.
+				 */
+				$counter.text(sc.find('selected').length+1);
+				$total.text(recalculateTotal(sc)+this.data().price);
+				
+				return 'selected';
+			} else if (this.status() == 'selected') {
+				//update the counter
+				$counter.text(sc.find('selected').length-1);
+				//and total
+				$total.text(recalculateTotal(sc)-this.data().price);
+			
+				//remove the item from our cart
+				$('#cart-item-'+this.settings.id).remove();
+			
+				//seat has been vacated
+				return 'available';
+			} else if (this.status() == 'unavailable') {
+				//seat has been already booked
+				return 'unavailable';
+			} else {
+				return this.style();
+			}
+		}
+	});
+
+	//this will handle "[cancel]" link clicks
+	$('#selected-seats').on('click', '.cancel-cart-item', function () {
+		//let's just trigger Click event on the appropriate seat, so we don't have to repeat the logic here
+		sc.get($(this).parents('li:first').data('seatId')).click();
+	});
+
+	//let's pretend some seats have already been booked
+	sc.get(['1_2']).status('unavailable');
+
+});
+
+function recalculateTotal(sc) {
+var total = 0;
+
+//basically find every selected seat and sum its price
+sc.find('selected').each(function () {
+	total += this.data().price;
+});
+
+return total;
+}
+</script>
+</body>
+</html>

@@ -92,12 +92,8 @@
         <label style="color: white;" for="dateofbirth"><b>Departure Date</b></label>
         <input type="date" name="dateofbirth" id="dateofbirth">
       </div>
+      <br> <br>
     
-
-      <div style="position: relative; top: -55px; left: 250px;">
-        <label style="color: white;" for="dateofbirth2"><b>Arrival Date</b></label>
-        <input class="arrdate" type="date" name="dateofbirth2" id="dateofbirth2">
-      </div>
 
         <div class="row">
             <div style="color: grey;" class="col">
@@ -108,31 +104,9 @@
             </div>
           </div>
         <br>
-
-        <div style="width: 350px;" class="input-group mb-3">
-            <div class="input-group-prepend">
-              <label class="input-group-text" for="inputGroupSelect01">Class</label>
-            </div>
-            <select id="cabintype" class="custom-select" id="inputGroupSelect01">
-              <option selected>Choose...</option>
-              <option value="Economy">Economy</option>
-              <option value="Economy+">Economy+</option>
-              <option value="Business">Business</option>
-            </select>
-            <button style="position: relative; top: 150px; left: -40px; width: 150px;" type="submit" class="button-18" role="button">Search</button>
+        <div>
+          <button style="position: relative;" type="submit" class="button-18" role="button">Search</button>
         </div>
-
-        <div class="form-group">
-          <label style="color: white;" class="exampleFormControlSelect1"><b>Select amount of adults</b></label>
-          <select id="passengerSelector" class="form-control" id="exampleFormControlSelect1">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </select>
-        </div>
-      
       </form>
 
       <nav style="position: relative; top:-320px; left:-400px;" class="navbar navbar-fixed-top navbar-expand-lg navbar-light bg-black">
@@ -222,33 +196,32 @@ input {
           const formData = new FormData(form);
 
           var hometown = document.getElementById("hometown").value
-          var destination_ = document.getElementById("destination").value
-          var cabintype_ = document.getElementById("cabintype").value;
+          var destination_ = document.getElementById("destination").value;
           var departuredate_ = document.getElementById("dateofbirth").value;
           var inputs = [hometown, destination_, departuredate_];
           let forbidden = false;
           
+
           for (let i = 0; i < inputs.length; i++)
           {
-             if (inputs[i] == null)
-             {
-               console.log(inputs[i]);
-               $('#MessageBox').show();
-               forbidden = true;
-               break;
-             }
+            if (inputs[i].length == 0 || inputs[i] == null)
+            {
+              $('#MessageBox').show();
+              forbidden = true;
+            }
           }
+
           if (hometown == destination_)
           {
               $('#MessageBox').show();
               forbidden = true;
           }
+
           if (forbidden == false)
           {
             const url = "{{url_for('find_tickets')}}";
-            window.location.href = `${url}?hometown=${hometown}&destination=${destination_}&cabin_type=${cabintype_}&departure_date=${departuredate_}`
+            window.location.href = `${url}?hometown=${hometown}&destination=${destination_}&departure_date=${departuredate_}`
           }
-
         })
       </script>
      

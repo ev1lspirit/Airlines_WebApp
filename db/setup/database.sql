@@ -10,6 +10,11 @@ CREATE TABLE IF NOT EXISTS User(
    username varchar(20) NOT NULL,
    password varchar(100) NOT NULL)
 
+CREATE TABLE IF NOT EXISTS Booking(
+   pnr varchar(7) PRIMARY KEY,
+   book_date DATE NOT NULL,
+   passport integer references Passenger(passport));
+
 CREATE TABLE IF NOT EXISTS City(
     name varchar(40) PRIMARY KEY);
 
@@ -69,21 +74,6 @@ CREATE TABLE IF NOT EXISTS Ticket(
   rowno integer,
   title varchar(15),
   FOREIGN KEY (seatno, rowno, title) references Seat(seatno, rowno, title));
-
-
-CREATE TABLE IF NOT EXISTS TicketService(
-    ticketno integer references Ticket(ticketno) ON UPDATE CASCADE ON DELETE CASCADE,
-    service_id integer references Service(service_id) ON DELETE CASCADE,
-    CONSTRAINT bill_product_pkey PRIMARY KEY (ticketno, service_id));
-
-    
-CREATE TABLE IF NOT EXISTS Service (
-    service_id integer PRIMARY KEY,
-    service_price integer not null);
-
-
-    
-  
 
 
   

@@ -26,25 +26,25 @@ WebAirlineApp.include_router(auth_router)
 
 
 @WebAirlineApp.get("/")
-def root(request: Request):
+async def root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 
 @WebAirlineApp.get("/earth_texture.jpg")
-def get_texture():
+async def get_texture():
     import os
     print(os.getcwd())
     return FileResponse("{cwd}/frontend/earth_texture.jpg".format(cwd=os.getcwd()))
 
 
 @WebAirlineApp.get('/admin/db')
-def get_db():
+async def get_db():
     with WebAirlinesDB as conn:
         resp: ExecutionResponse = conn.select(query="SELECT table_name FROM information_schema.tables WHERE table_schema='public';")
     return {"resp": resp.response}
 
 
 if __name__ == "__main__":
-    uvicorn.run(WebAirlineApp, host="192.168.16.151", port=8000)
+    uvicorn.run(WebAirlineApp, host="127.0.0.1", port=8000)
 
 

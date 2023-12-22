@@ -41,6 +41,8 @@ class Field:
         self._dep = _dep
 
     def __eq__(self, other: str):
+        if isinstance(other, Field):
+            return Field(value="{value} = {other}".format(value=str(self.value), other=other.value))
         return Field(value="{value} = '{other}'".format(value=str(self.value), other=other))
 
     def __ge__(self, other):
@@ -109,7 +111,7 @@ class BaseJoin:
         return Table(self.template.format(
             table=self.first_table.name,
             table2=self.other_table.name,
-            predicate=predicate))
+            predicate=predicate.value))
 
 
 class Join(BaseJoin):

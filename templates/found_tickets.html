@@ -37,10 +37,10 @@
             <a class="nav-link" href="#">Services</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Tickets</a>
+            <a class="nav-link" href="{{url_for('search_tickets_handler')}}">Tickets</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Planes</a>
+            <a class="nav-link" href="{{url_for('get_status')}}">PNR</a>
           </li>
           <li class="nav-item">
             <a class="nav-link disabled" href="#">Disabled</a>
@@ -55,7 +55,7 @@
       <h5 class="mb-0">
         <div class="card h-1 w-150">
           <div class="card-body">
-            <h7 style="float: right;">XWINGS AIRLINES <img style="height: 20px;" src="{{ url_for('frontend', path='peace.png') }}"></h7>
+            <h7 style="float: right;"><h11 id="flightno1"></h11><span>         </span>XWINGS AIRLINES <img style="height: 20px;" src="{{ url_for('frontend', path='peace.png') }}"></h7>
             <h5 id="opt1header" class="card-title"></h5>
             <p id="opt1header_date" class="card-text"></p>
           </div>
@@ -78,7 +78,7 @@
                   <li class="list-group-item"><img style="height: 15px;" src="{{ url_for('frontend', path='checked.png') }}"/><span>      </span>Hand luggage: 10kg, 50x33x20</li>
                 </ul>
               </div>
-              <a style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
+              <a onclick="redirectToServices(1, `Economy`)" id="economyclassbutton" style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
             </div>
           </div>
           <div class="card">
@@ -92,7 +92,7 @@
                   <li class="list-group-item"><img style="height: 15px;" src="{{ url_for('frontend', path='checked.png') }}"/><span>      </span>Hand luggage: 10kg, 50x33x20</li>
                 </ul>
               </div>
-              <a style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
+              <a onclick="redirectToServices(1, `Economy+`)" style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
             </div>
           </div>
           <div class="card">
@@ -107,7 +107,7 @@
                   <li class="list-group-item"><img style="height: 15px;" src="{{ url_for('frontend', path='checked.png') }}"/><span>      </span>Business lounge at the airport</li>
                 </ul>
               </div>
-              <a style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
+              <a onclick="redirectToServices(1, `Business`)" style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
             </div>
           </div>
         </div>
@@ -120,7 +120,7 @@
         <h5 class="mb-0">
           <div class="card h-1 w-150">
             <div class="card-body">
-              <h7 style="float: right;">XWINGS AIRLINES <img style="height: 20px;" src="{{ url_for('frontend', path='peace.png') }}"></h7>
+              <h7 style="float: right;"><h11 id="flightno2"></h11><span>         </span>XWINGS AIRLINES <img style="height: 20px;" src="{{ url_for('frontend', path='peace.png') }}"></h7>
               <h5 id="opt2header" class="card-title"></h5>
               <p id="opt2header_date" class="card-text"></p>
             </div>
@@ -136,14 +136,14 @@
               <div style="background-color: rgba(5, 153, 251, 0.06);" class="card-body">
                 <h8><b>Economy Class</b></h8>
                 <div id="2classbar"></div>
-                <a style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
+                <a onclick="redirectToServices(2, `Economy`)" style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
               </div>
             </div>
             <div class="card">
               <div style="background-color: rgba(5, 153, 251, 0.06);" class="card-body">
                 <h8><b>Economy+</b></h8>
                 <div id="2classbarplus"></div>
-                <a style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
+                <a onclick="redirectToServices(2, `Economy+`)" style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
               </div>
             </div>
             <div class="card">
@@ -151,7 +151,7 @@
                 <h8><b>Business</b></h8>
                 <br><br>
                 <div id="2classbarpremium"></div>
-                <a style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
+                <a onclick="redirectToServices(2, `Business`)" style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
               </div>
             </div>
           </div>
@@ -164,7 +164,7 @@
           <h5 class="mb-0">
             <div class="card h-1 w-150">
               <div class="card-body">
-                <h7 style="float: right;">XWINGS AIRLINES <img style="height: 20px;" src="{{ url_for('frontend', path='peace.png') }}"></h7>
+                <h7 style="float: right;"><h11 id="flightno3"></h11><span>         </span>XWINGS AIRLINES <img style="height: 20px;" src="{{ url_for('frontend', path='peace.png') }}"></h7>
                 <h5 id="opt3header" class="card-title"></h5>
                 <p id="opt3header_date" class="card-text"></p>
               </div>
@@ -181,9 +181,8 @@
                   <h8><b>Economy Class</b></h8>
                   <br><br>
                   <div id="3classbar">
-
                   </div>
-                  <a style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
+                  <a onclick="redirectToServices(3, `Economy`)" style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
                 </div>
               </div>
               <div class="card">
@@ -191,7 +190,7 @@
                   <h8><b>Economy+</b></h8>
                   <br><br>
                   <div id="3classbarplus"></div>
-                  <a style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
+                  <a onclick="redirectToServices(3, `Economy+`)" style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
                 </div>
               </div>
               <div class="card">
@@ -199,7 +198,7 @@
                   <h8><b>Business</b></h8>
                   <br><br>
                   <div id="3classbarpremium"></div>
-                  <a style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
+                  <a onclick="redirectToServices(3, `Business`)" style="float: right; height: 35px; width: 100px;" href="#" class="btn btn-primary">Choose</a>
                 </div>
               </div>
             </div>
@@ -229,6 +228,16 @@
       var url = "{{url_for('get_list_of_tickets')}}";
       fetchPage(`${url}?page=1&size=3`);
       var last_hidden = 0;
+      var items;
+
+      var vars = [], hash;
+      var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+      for(var i = 0; i < hashes.length; i++)
+      {
+          hash = hashes[i].split('=');
+          vars.push(hash[0]);
+          vars[hash[0]] = hash[1];
+      }
       $('#EconomyClassBar').clone().appendTo("#2classbar")
       $('#EconomyClassBar').clone().appendTo("#3classbar")
 
@@ -267,11 +276,14 @@
           .then(response => response.json())
           .then(data => {
             let json = $.parseJSON(JSON.stringify(data));
-            var items = data["items"];
+
+            items = data["items"];
             
             console.log(items.length);
             for (let i = 0; i < items.length; i++)
             {
+              $(`#flightno${i+1}`).html(`<font size=2>${items[i]["flight_no"]}</font>`);
+              console.log(`#flightno${i+1}`);
               $(ticket_headers[i]).html(`${items[i]['dep_time']}&nbsp; <font size='1'>${items[i]['home_code']}</font> &nbsp;&nbsp;&nbsp; <font size='1'>${items[i]['dest_code']}</font>&nbsp; ${items[i]['arr_time']}`);
               $(ticket_headers[i] + "_date").html(`<font size="2">${items[i]['dep_date']}</font> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font size="2">${items[i]['arr_date']}</font>`);
             }
@@ -286,11 +298,28 @@
             {
               hideBlocks(shown - items.length)
             }
-            
             $(document).ready(function(){
                 $(window).scrollTop(0);    
           });
         });
+      }
+
+      function redirectToServices(header_id, cabin_type)
+      {
+        console.log(vars);
+        let flightno = $(`#flightno${header_id}`).text();
+        let url = `{{url_for('services_handle')}}`;
+        console.log(url);
+        let final_url = `${url}?cabin_type=${cabin_type}&flight_no=${flightno}&`
+        for (let i = 0; i < vars.length; i++)
+        {
+           final_url += `${vars[i]}=${vars[vars[i]]}`
+           if (i < (vars.length - 1))
+           {
+              final_url += "&";
+           }
+        }
+        window.location.href = final_url;
       }
 
       fst_page.addEventListener("click", (event) => {
@@ -304,6 +333,7 @@
           let url_wtih_query = `${url}?page=2&size=3`
           fetchPage(url_wtih_query);
           })
+
 
       thr_page.addEventListener("click", (event) => {
           event.preventDefault();

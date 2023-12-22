@@ -8,5 +8,7 @@ City = Table('City')
 Flight = Table('Flight')
 Service = Table('Service')
 Ticket = Table('Ticket')
+Seat = Table('Seat')
 Booking = Table('Booking')
+TicketService = Table('TicketService')
 

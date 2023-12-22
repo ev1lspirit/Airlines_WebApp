@@ -50,7 +50,7 @@ var firstSeatLabel = 1;
             c: {
 							price   : 1250,
 							classes : 'student-class',
-							category: 'Student Ticket'
+							category: 'Already Booked'
 						},
 					
 					},

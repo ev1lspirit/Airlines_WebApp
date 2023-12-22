@@ -53,9 +53,13 @@ class Selector:
         query = self.template.format(fields=field_row, tables=table_row)
         return query
 
-    def filter(self, condition):
-        self.__query = " ".join((self.__query.replace(";", ""), self.clause.format(clause=condition.value)))
-        return self.fetch(self.cursor)
+    def filter(self, condition, query_only=False):
+        if isinstance(condition, Field):
+            condition = condition.value
+        self.__query = " ".join((self.__query.replace(";", ""), self.clause.format(clause=condition)))
+        if not query_only:
+            return self.fetch(self.cursor)
+        return ExecutionResponse(response=None, error=None, query=self.__query)
 
     def fetch(self, cursor) -> ExecutionResponse:
         query = self.__query
